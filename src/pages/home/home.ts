@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { QuoteService } from '../../services/quotes';
 
+
+import { WelcomePage } from '../../pages/welcome/welcome';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -9,14 +12,27 @@ import { QuoteService } from '../../services/quotes';
 export class HomePage {
 
   public email: string;
-  constructor(public navCtrl: NavController,public quotes:QuoteService) {
+  public error: boolean = false;
+
+
+  constructor(public navCtrl: NavController, public quotes: QuoteService) {
     this.quotes.getFavoriteSports();
+    console.log(this.quotes.data);
+    this.email="iarjona@ittepic.edu.mx";
+    
 
   }
 
 
   login(): void {
-    //comparar email capturado vs email en server
-    
+
+    if (this.email === this.quotes.data.email) {
+      console.log("Todo bien");//comparar email capturado vs email en server
+      this.error = false;
+      this.navCtrl.push(WelcomePage);
+    } else {
+      console.log("No coinciden!!");
+      this.error = true;
+    }
   }
 }
